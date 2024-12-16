@@ -3,7 +3,7 @@ using System.Net;
 using Newtonsoft.Json;
 using Betsson.OnlineWallets.API.Tests.src.Models;
 
-namespace Betsson.OnlineWallets.API.Tests.src.test.GetBalanceTests;
+namespace Betsson.OnlineWallets.API.Tests.src.test.GetBalance;
 
 [TestClass]
 public class GetBalanceTests : BaseTest
