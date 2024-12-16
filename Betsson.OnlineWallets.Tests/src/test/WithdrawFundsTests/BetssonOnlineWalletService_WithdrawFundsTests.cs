@@ -1,5 +1,6 @@
 using Betsson.OnlineWallets.Data.Models;
 using Betsson.OnlineWallets.Data.Repositories;
+using Betsson.OnlineWallets.Exceptions;
 using Betsson.OnlineWallets.Models;
 using Betsson.OnlineWallets.Services;
 using Moq;
@@ -43,6 +44,49 @@ public class BetssonOnlineWalletService_WithdrawFundsTests
         //Assert
         Assert.IsNotNull(actualBalance);
         Assert.AreEqual(expectedBalance.Amount, actualBalance.Amount);
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(InsufficientBalanceException))]
+    public async Task WithdrawFundsAsync_WithdrawAmountBiggerThanFunds_ThrowsException()
+    {
+        //Arrange
+        Withdrawal withdrawal = BuildWithdrawal(300);
+        decimal withdrawalAmount = withdrawal.Amount;
+        withdrawalAmount *= -1;
+        OnlineWalletEntry onlineWalletEntry = BuildDefaultOnlineWalletEntry();
+        mockOnlineWalletRepository
+        .Setup(walletBalance => walletBalance.GetLastOnlineWalletEntryAsync())
+        .ReturnsAsync(onlineWalletEntry);
+        Balance currentBalance = await onlineWalletService.GetBalanceAsync();
+
+        //Act
+        Balance actualBalance = await onlineWalletService.WithdrawFundsAsync(withdrawal);
+
+        //Assert - Expect exception to be thrown
+    }
+
+    [TestMethod]
+    public async Task WithdrawFundsAsync_WithdrawAmountBiggerThanFunds_AssertErrorMessage()
+    {
+        //Arrange
+        var expectedExceptionMessage = "Invalid withdrawal amount. There are insufficient funds.";
+        Withdrawal withdrawal = BuildWithdrawal(300);
+        decimal withdrawalAmount = withdrawal.Amount;
+        withdrawalAmount *= -1;
+        OnlineWalletEntry onlineWalletEntry = BuildDefaultOnlineWalletEntry();
+        mockOnlineWalletRepository
+        .Setup(walletBalance => walletBalance.GetLastOnlineWalletEntryAsync())
+        .ReturnsAsync(onlineWalletEntry);
+        Balance currentBalance = await onlineWalletService.GetBalanceAsync();
+
+        //Act
+        Task<Balance> action() => onlineWalletService.WithdrawFundsAsync(withdrawal);
+
+        //Assert - Expect exception to be thrown
+        var exception =
+        await Assert.ThrowsExceptionAsync<InsufficientBalanceException>(action);
+        Assert.AreEqual(expectedExceptionMessage, exception.Message);
     }
 
     private static OnlineWalletEntry BuildDefaultOnlineWalletEntry()
