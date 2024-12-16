@@ -9,7 +9,7 @@ namespace Betsson.OnlineWallets.API.Tests.src.test.GetBalanceTests;
 public class GetBalanceTests : BaseTest
 {
     [TestMethod]
-    public async Task GetBalanceAsync_GetInitialBalanceNoTransactions_BalanceZero()
+    public async Task GetBalance_GetInitialBalanceNoTransactions_BalanceZero()
     {
         MakeBalanceZero();
         var getBalancerequest = new RestRequest(GET_BALANCE_ENDPOINT);
@@ -23,7 +23,7 @@ public class GetBalanceTests : BaseTest
     }
 
     [TestMethod]
-    public async Task GetBalanceAsync_GetBalanceAfterDeposit_CorrectBalance()
+    public async Task GetBalance_GetBalanceAfterDeposit_CorrectBalance()
     {
         decimal depositAmount = 100;
         MakeBalanceZero();
@@ -39,7 +39,7 @@ public class GetBalanceTests : BaseTest
 
     [TestMethod]
     [ExpectedException(typeof(HttpRequestException))]
-    public async Task GetBalanceAsync_WrongMethod_ErrorStatusCode()
+    public async Task GetBalance_WrongMethod_ErrorStatusCode()
     {
         var getBalancerequest = new RestRequest(GET_BALANCE_ENDPOINT);
 
