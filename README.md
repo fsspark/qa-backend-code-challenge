@@ -23,7 +23,10 @@ http://localhost:<port>/swagger/index.html
 ```
 
 ### Run Tests
-In order to execute all API and Unit Test within the project, first build, and Run docker container in por 8087, then run the following command:
+In order to execute all API and Unit Test within the project:
+- Build Docker image
+- Run Docker container using port ```8087```
+- run the following command:
 ```
 dotnet test
 ```
