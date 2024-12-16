@@ -9,7 +9,7 @@ using Moq;
 namespace Betsson.OnlineWallets.Tests.src.test.GetBalanceTests;
 
 [TestClass]
-public class BetssonOnlineWallet_BalanceTests{
+public class BetssonOnlineWalletService_GetBalanceTests{
     private OnlineWalletService? onlineWalletService;
     private Mock<IOnlineWalletRepository>? mockOnlineWalletRepository;
 
