@@ -48,4 +48,3 @@ public class GetBalanceTests : BaseTest
         Assert.AreEqual(HttpStatusCode.MethodNotAllowed, response.StatusCode);
     }
 }
-
