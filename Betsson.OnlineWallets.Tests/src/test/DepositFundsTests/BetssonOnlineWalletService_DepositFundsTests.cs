@@ -29,7 +29,7 @@ public class BetssonOnlineWalletService_DepositFundsTests
         .Setup(walletRepository => walletRepository.GetLastOnlineWalletEntryAsync())
         .ReturnsAsync(walletEntry);
         Balance balance = await onlineWalletService.GetBalanceAsync();
-        OnlineWalletEntry walletDepositEntry = BuildOnlieWalletDepositEntry(deposit,balance);
+        OnlineWalletEntry walletDepositEntry = BuildOnlieWalletDepositEntry(deposit, balance);
         mockOnlineWalletRepository
         .Setup(depositEntry => depositEntry.InsertOnlineWalletEntryAsync(walletDepositEntry));
         Balance expectedBalance = BuildExpectedBalance(balance, deposit);
@@ -56,8 +56,10 @@ public class BetssonOnlineWalletService_DepositFundsTests
         return onlineWalletEntry;
     }
 
-    private static OnlineWalletEntry BuildOnlieWalletDepositEntry(Deposit deposit, Balance balance){
-        return new (){
+    private static OnlineWalletEntry BuildOnlieWalletDepositEntry(Deposit deposit, Balance balance)
+    {
+        return new()
+        {
             Amount = deposit.Amount,
             BalanceBefore = balance.Amount,
             EventTime = DateTimeOffset.UtcNow
@@ -71,8 +73,10 @@ public class BetssonOnlineWalletService_DepositFundsTests
         };
     }
 
-    private static Balance BuildExpectedBalance(Balance balance, Deposit deposit){
-        return new(){
+    private static Balance BuildExpectedBalance(Balance balance, Deposit deposit)
+    {
+        return new()
+        {
             Amount = balance.Amount + deposit.Amount
         };
     }
